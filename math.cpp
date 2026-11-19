@@ -1,4 +1,5 @@
 #include "raylib.h"
+#include <cassert>
 #include <cmath>
 #include <iostream>
 
@@ -44,8 +45,34 @@ float h(float theta, float x, float y) {
     float term3 = std::sqrt((x + y) * x);
     return term1 + term2 + term3;
 }
+
+bool isClose(double actual, double expected, double tol = 1e-5) {
+    return std::abs(actual - expected) <= tol;
+}
+
+void runTests() {
+    assert(isClose(l(3.0f, 4.0f), 5.0f));
+    assert(isClose(l(0.0f, 0.0f), 0.0f));
+
+    assert(isClose(s(-5.0f), 5.0f));
+    assert(isClose(s(5.0f), 5.0f));
+    assert(isClose(s(0.0f), 0.0f));
+    assert(isClose(f(0), 0.0f));
+    assert(isClose(f(5), 11.0f));
+
+    assert(isClose(g(0), 0.0));
+    assert(isClose(g(3), 126.0));
+
+    assert(isClose(h(0.0f, 1.0f, 0.0f), 2.0f));
+    assert(isClose(h(0.5f, 2.0f, 3.0f), -5.134122f));
+
+    DrawText("All tests passed!", 10, 10, 20, GREEN);
+}
+
+
 int main()
 {
+
     SetConfigFlags(FLAG_MSAA_4X_HINT);
     InitWindow(screenWidth, screenHeight, "math");
     SetTargetFPS(60);
@@ -54,6 +81,10 @@ int main()
     {
         BeginDrawing();
         ClearBackground(RAYWHITE);
+        
+        runTests();
+        
+
         float result = l(3.0f, 4.0f);
         float result2 = s(-5.0f);
         float result3 = f(5);
