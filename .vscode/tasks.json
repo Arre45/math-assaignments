@@ -1,0 +1,43 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "Create bin directory",
+      "type": "process",
+      "command": "mkdir",
+      "args": ["-p", "${workspaceFolder}/bin"],
+      "problemMatcher": []
+    },
+    {
+      "label": "Build math",
+      "type": "process",
+      "command": "g++",
+      "args": [
+        "-g",
+        "-O0",
+        "-std=c++17",
+        "-I${workspaceFolder}/ext/raylib/include",
+        "${workspaceFolder}/math.cpp",
+        "${workspaceFolder}/ext/raylib/lib/libraylib.a",
+        "-o",
+        "${workspaceFolder}/bin/math",
+        "-lGL",
+        "-lm",
+        "-lpthread",
+        "-ldl",
+        "-lrt",
+        "-lX11"
+      ],
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
+      "dependsOn": "Create bin directory",
+      "dependsOrder": "sequence",
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      },
+      "problemMatcher": ["$gcc"]
+    }
+  ]
+}
